@@ -1,0 +1,8 @@
+{
+  "label": "RIPS",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Propiedades y funcionalidades del modulo de RIPS (Registro Individual de Prestación de Servicios de Salud)"
+  }
+}

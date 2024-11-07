@@ -1,0 +1,182 @@
+---
+sidebar_position: 2
+---
+
+# Tabla y Funcionalidades
+Vista general de los RIPS y sus funcionalidades
+
+## Vista de Resultados
+En la **Vista de Resultados**, se muestran los registros generados por la búsqueda. Esta sección permite visualizar información detallada sobre el RIPS de un radicado 
+y su estado actual. La tabla de resultados contiene las siguientes columnas:
+
+### Columnas de la Tabla
+
+- **Nro**: Indicador numérico que simplemente muestra el número de fila en la lista, sin impacto en los datos.
+- **Radicado**: Número del radicado que se está visualizando.
+- **Ingreso**: Número de ingreso relacionado con la factura, que asocia la entrada de datos en el sistema con su factura correspondiente.
+- **Fecha Creación Radicado**: Muestra la fecha en la que el registro fue cargado al sistema.
+- **Aseguradora**: EPS a la cual está asociado el radicado o la factura.
+- **Estado**: Indica el estado actual de la factura, el cual puede ser alguno de los estados definidos previamente en el sistema. [Ver aquí](http://localhost:3000/docs/intro#estados-de-los-distintos-procesos) para más detalles.
+- **Radicado Aseguradora**: Número que se genera cuando la aseguradora acepta el envío de los RIPS de forma satisfactoria. Este valor es único y permite identificar cada radicado en la aseguradora.
+- **Tipo PBS**: Indica si el radicado está clasificado como PBS (Planes de Beneficios en Salud) o no. Este campo ayuda a categorizar los radicados según su tipo de cobertura.
+- **Prioridad**: Muestra la prioridad asignada al radicado en el sistema. La prioridad determina el orden en que el robot procesará el radicado, siendo útil para gestionar el flujo de trabajo de forma eficiente.
+- **RPA**: Nombre del robot que está a cargo del procesamiento de la factura, lo cual facilita la identificación del agente de automatización responsable.
+
+## Acciones
+
+### Visualizacion y modificacion de RIPS
+
+<span className="badge-custom primary" style={{ width: '20px', height: '16px' }}><i className="fa fa-eye" style={{ fontSize: '12px'}}></i></span> **Visualización y Modificación de RIPS** 
+En la interfaz, se despliega una ventana dentro de la aplicación que permite revisar y modificar la información de un radicado o RIPS cargado en la plataforma. Esta ventana se divide en 
+cuatro secciones clave, cada una diseñada para mostrar datos específicos que facilitan el análisis y la gestión de los RIPS. ***<span style={{ color: 'blue'}}>Cabe destacar que las validaciones disponibles en este 
+componente variarán según la aseguradora asociada al radicado, adaptándose a los requisitos específicos de cada entidad.</span>***
+
+1. **Datos Descriptivos del Radicado**: Esta sección ofrece información básica y descriptiva del radicado seleccionado, incluyendo :<br></br> 
+    **1.1** Fecha Creacion o Fecha de carga del RIPS a Hermes <br></br>
+    **1.2** Radicado o numero que identifica al conjunto de facturas asociadas a este identificativo<br></br>
+    **1.3** Aseguradora<br></br>
+    **1.4** Tipo PBS de la factura<br></br>
+
+2. **Información de Armado de Cuentas**: Aquí se presenta información relacionada con el armado de cuentas o de las facturas registradas en Hermes[^1]:<br/>
+    **2.1 Facturas Totales:** Cantidad de facturas por radicado. <br/>
+    **2.2 Valor Total del Armado de Cuentas:** Suma del valor de cada factura asociada al radicado. <br/>
+    **2.3 Facturas Procesadas - OK:** Suma de Facturas que durante el proceso de armado de cuentas quedaron en estado "Armado Completo" o "Completado por el Usuario". <br/>
+    **2.4 Facturas esperando atencion del usuario:** Suma de Facturas que en estado "Intervencion de usuario" o "Fallo". Aunque esten en estos estados **NO INPIDE** el proceso 
+    de rips o de radicacion de soportes de facturas.
+
+3. **Información de Radicación de RIPS**: En esta sección se encuentran los detalles sobre la radicación del RIPS, incluyendo estados, fechas y cualquier otro aspecto relevante del 
+proceso de envío a la aseguradora. <br/>
+    **3.1 Total Facturas RIPS:** Cantidad de Facturas que se le reporta a la aseguradora. <br/>
+    **3.2 Valor RIPS:** Valor por el cual fue radicado el RIPS en la aseguradora. <br/>
+    **3.3 Radicado Aseguradora:** Consecutivo entregado por la aseguradora en el momento de la radicacion de los rips. <br/>
+    > **Nota**: Los puntos 3.1, 3.2 y 3.3 son obligatorios y se especifica el porque en el pie de pagina. <br/>
+
+    **3.4 Estado:** [Ver Aqui](http://localhost:3000/docs/intro#estados-de-los-distintos-procesos) <br/>
+
+    **3.5 Prioridad**: Este menu desplegable asigna una prioridad a los RIPS para que los robots las procesen con mayor o menor urgencia. Existen tres niveles de prioridad:
+    **Bajo, Medio, Alto**
+    
+    > **Nota**: Asignar una gran cantidad de radicados con **Prioridad Alta** puede hacer que el robot distribuya sus recursos analizando no solo la prioridad sino también
+    la fecha en la que fueron cargadas. Esto significa que, si demasiados radicados tienen prioridad alta, el robot seguirá priorizando según su lógica interna, 
+    y el efecto de la prioridad puede disminuir.
+
+
+4. **Tabla de Errores de RIPS**: Esta tabla enumera los errores detectados en los RIPS durante el procesamiento. Es especialmente útil en los casos en que el cliente desee 
+    revisar los errores encontrados antes de proceder con el envío de los RIPS a las plataformas de las aseguradoras. 
+   
+    <figure style={{ textAlign: 'center' }}>
+        <img src="/img/rips/erroresRips.png" alt="Errores RIPS" width="550" />
+        <figcaption style={{ fontStyle: 'italic', color: 'gray' }}>Figura 1. Vista de Errores encontrados por el validador en los RIPS</figcaption>
+    </figure>
+
+    La tabla de errores en RIPS organiza la información para facilitar la identificación y solución de problemas en los archivos. La tabla está estructurada en tres columnas:
+
+    **A. Archivo:** Aquí se muestra el prefijo del archivo en el que se identificó el error. Los archivos de RIPS suelen estar separados en distintos prefijos que indican el 
+    tipo de información que contienen ***(por ejemplo, CT para control, US para usuarios, AP para procedimientos, etc.)***. Agrupar los errores por prefijo ayuda a ubicar rápidamente el 
+    archivo específico que presenta problemas. <br/>
+
+    **B. Errores:** Esta columna detalla el error encontrado, especificando la línea exacta donde ocurre y la posición dentro de esa línea, ya que los datos en los 
+    archivos RIPS están organizados en líneas y separados por comas. La descripción incluye primero la línea del error y luego la posición dentro de esa línea, permitiendo así 
+    identificar el lugar exacto en que debe corregirse. <br/>
+
+    Esta estructura ayuda a los usuarios a localizar rápidamente los errores y entender su contexto, lo que facilita el proceso de corrección.
+    Además de los errores detallados en las columnas anteriores, pueden mostrarse los siguientes mensajes según el resultado del proceso del robot o la intervención del usuario:
+
+    - **Descarga de archivos RIPS, realizada correctamente**: Este mensaje indica que todos los archivos de RIPS se validaron sin problemas y están listos para su validacion.
+    - **RIPS LIMPIO CORRECTAMENTE**: Aparece cuando los RIPS han sido limpiados sin errores detectados en la validación.
+    - **Finaliza modificación de archivos RIPS correctamente**: Muestra que la modificación de los archivos RIPS se completó sin incidencias y que los archivos están listos para los pasos posteriores.
+    - **RIPS Realizados por el Usuario**: Este mensaje aparece cuando el usuario ha completado manualmente la carga en la plataforma de la aseguradora, en los casos en que el robot no pudo procesar los RIPS en un primer intento.
+
+    Estas notificaciones, visibles en la parte inferior de la tabla, ayudan al usuario a comprender el estado general del procesamiento y a identificar si se requieren acciones adicionales.
+   > **Nota**: La tabla de errores permite una visión detallada para facilitar la identificación y resolución de problemas antes de la carga final en los sistemas de las aseguradoras.
+
+### Trazabilidad de los RIPS
+
+
+<li style={{ display: 'flex', alignItems: 'center' }}>
+    <figure style={{ margin: '5px' }}><img src="/img/rips/iconoTrazabilidad.png" alt="trazabilidad" width="25" /></figure>
+    **Trazabilidad de RIPS**  
+</li>
+En la interfaz, se despliega una ventana dentro de la aplicación que permite revisar la informacion de los pasos que realizo el robot durante 
+el proceso de la descarga y modificacion de los RIPS, que el usuario puede detallar si asi lo requiere (Tambien se podra ver la trazabilidad de la radicacion de soportes de facturas).
+
+## Carga de RIPS Manual
+
+> **Nota**: Esta sección es aplicable **exclusivamente** para usuarios cuyo proceso de carga de RIPS no se realiza automáticamente. Si su proceso es completamente automático, ignore esta información.
+
+En esta sección, los usuarios autorizados pueden realizar una **carga manual de RIPS** a través de un formulario que presenta tres campos obligatorios:
+
+1. **Número de Radicado**: El número de referencia asignado al radicado.
+2. **Tipo de Régimen**: Selección del tipo de régimen aplicable al RIPS.
+3. **Tipo de PBS**: Definición del tipo de PBS correspondiente.
+
+Todos los campos son obligatorios. A continuación se muestra la ventana de carga manual de RIPS que expone la plataforma:
+
+
+<figure style={{ textAlign: 'center' }}>
+  <img src="/img/rips/CargaRips.png" alt="Excel base" width="350" />
+  <figcaption style={{ fontStyle: 'italic', color: 'gray' }}>Figura 3. Ventana Carga Manual de RIPS</figcaption>
+</figure>
+
+## Radicación de Soportes de Facturas
+
+El módulo de **Radicación de Soportes de Facturas** es una funcionalidad dependiente de los RIPS, por lo que se encuentra dentro del módulo de RIPS, aunque en el flujo de trabajo de los robots opera como un módulo separado. Este apartado permite a los usuarios preparar y supervisar la radicación de los soportes de las facturas.
+
+### Pasos para Iniciar el Proceso de Radicación
+
+Para que el robot de radicación inicie su proceso, es necesario completar ciertos pasos previos en el sistema. Estos pasos incluyen:
+
+1. **Revisión de RIPS**: Asegurarse de que los RIPS estén correctamente cargados y validados en el sistema. Esto garantiza que los datos de facturación a radicar estén completos y sin errores que puedan interrumpir el proceso.
+
+2. **Preparación de Soportes**: El usuario debe confirmar que todos los soportes requeridos están disponibles y organizados según las políticas de la aseguradora. Esto permite que el robot acceda a la información y procese las radicaciones de manera eficiente.
+
+3. **Activación del Robot de Radicación**: Una vez cumplidos los pasos anteriores, el usuario puede habilitar el robot de radicación para que comience a procesar las facturas de forma automática.
+
+   **3.1. Preparación para Activar la Radicación:**  
+   Para que el proceso de radicación se active correctamente, se deben cumplir ciertos criterios, especialmente en el caso de la aseguradora **SAVIA** y cuando la carga se realiza en la plataforma **Mercurio**. Los pasos específicos son los siguientes:
+
+   - **Validación de Cantidad de Facturas**:  
+     El número de facturas asociadas al armado de cuentas y al radicado debe coincidir con la cantidad cargada en **Conexiones**. Para verificar esto:
+       - Los campos **Facturas Totales** y **Total Facturas RIPS** deben reflejar la misma cantidad.  
+
+   - **Revisión del Valor Total de las Facturas**:  
+     Se debe asegurar que el valor total de las facturas asociadas al radicado en **Conexiones** sea igual al valor total preescrito en la base de datos.
+       - Los campos **Valor total del Armado Cuentas** y **Valor RIPS** deben coincidir.
+       - Aunque el valor esté preestablecido, pueden darse cambios, así que esta validación es importante para evitar errores en el proceso.
+
+   - **Carga del Código del Radicado**:  
+     Después de la validación final en la página de **Conexiones**, el usuario debe registrar el código de radicación que muestra la plataforma. Este código deberá ser ingresado en la plataforma **Hermes** en el campo **Radicado Aseguradora**.
+
+   - **Verificación del Estado Final**:  
+     El estado debe estar en **"Completado por el usuario"** o **"Gestión Exitosa"** antes de proceder. Esto asegura que el proceso de carga se ha completado correctamente y que la radicación está lista para continuar.
+    
+    > **Nota**: Si existe una discrepancia en los totales, ya sea mayor o menor, es necesario generar un ticket en la página de soporte, tal como se describe en la [Guía de Inicio Rápido](http://localhost:3000/docs/intro).
+    
+    > **Nota**: Si los campos **Cantidad de Facturas**, **Valor del Radicado** o **Estado** no cumplen con los criterios requeridos, la plataforma mostrará un mensaje de advertencia (ver ejemplo a continuación), 
+    y el botón ***Iniciar Carga*** no estará disponible en pantalla.
+
+    ![Acciones Masivas](./img/valoresNoConcuerdan.png)
+    <div style={{ textAlign: "left", fontStyle: "italic", color: "gray" }}>
+        Figura 2. Mensaje de Alerta
+    </div>
+
+    **3.1.1 Activacion de Radicación en las demas aseguradoras:**
+    Para las demás aseguradoras, ya que los datos no requieren el mismo nivel de precisión, la validación dependerá de cada proceso de manera independiente. 
+    Solo es necesario que el estado esté en uno de los dos criterios indicados previamente (**Completado por el usuario** o **Gestión Exitosa**), momento en el cual el botón de 
+    ***Iniciar Carga*** estará visible en pantalla. Los tratamientos adicionales quedarán bajo la responsabilidad del usuario.
+
+
+#### Mensajes y Notificaciones en la Tabla de Errores
+
+Dentro de la tabla de errores del módulo de radicación, los usuarios pueden encontrar mensajes y notificaciones que ayudan a identificar el estado del proceso y cualquier incidencia que surja. Algunos ejemplos de estos mensajes incluyen:
+
+- *Radicación Completa*
+- *Radicado Realizado Satisfactoriamente*
+- *Radicado Realizado Satisfactoriamente con consecutivo: 1234567890*
+- *Completado por el usuario*
+- *Error Aseguradora* (cuando se identifica un problema relacionado con la aseguradora).
+
+---
+[^1]: Estos datos son de alta relevacion para SAVIA SALUD (Alianza Medellin Antioquia), debido a que su proceso de radicaciond de soportes de facturas lo requiere. 
+
+_Lanzado desde la version 1.0 y sin modificacion a la fecha._

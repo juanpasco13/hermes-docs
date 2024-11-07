@@ -1,0 +1,73 @@
+---
+sidebar_position: 2
+---
+
+# Tabla y Funcionalidades
+Vista de los radicados en general y sus funcionalidades
+
+## Vista de Resultados
+
+En la **Vista de Resultados**, se muestran los registros generados por la búsqueda o por la carga inicial del módulo. Esta sección permite visualizar información detallada sobre cada radicado y el estado de las facturas asociadas. La tabla de resultados contiene las siguientes columnas:
+
+### Columnas de la Tabla
+
+- **Nro**: Indicador numérico que simplemente muestra el número de fila en la lista, sin impacto en los datos.
+
+- **Fecha Creación**: Muestra la fecha en la que el registro fue cargado al sistema.
+
+- **Radicado**: Número del radicado que se está visualizando.
+
+- **Aseguradora**: EPS a la cual está asociado el radicado.
+
+- **Completados**: Número de facturas que el robot ha procesado exitosamente sin problemas, completando el armado de cuentas.
+
+- **Completados por el Usuario**: Número de facturas actualizadas manualmente por el usuario, tras haber estado en el estado de **Atención de Usuario**.
+
+- **Atención de Usuario**: Número de facturas que requieren revisión por parte del usuario antes de completarse.
+
+- **En Proceso**: Cantidad de facturas que el robot está procesando actualmente o que aún no han sido procesadas.
+
+- **Canceladas**: Número de facturas que, por alguna razón, fueron canceladas y no se procesarán más. Esto se determina desde el módulo de facturas.
+
+- **Total**: Cantidad total de facturas asociadas al radicado, independientemente de su estado actual.
+
+- **Acciones**: Contiene un icono que permite descargar un reporte detallado de las incidencias asociadas al radicado. (Este campo se explicará más adelante en detalle).
+
+> **Nota**: Todos los campos de la tabla son filtrables desde el encabezado de cada columna, permitiendo ordenar los datos en forma ascendente o descendente, excepto el campo **Acciones**.
+
+### Acciones
+#### Descarga de Incidencias en Excel
+
+<figure style={{ textAlign: 'center' }}>
+  <img src="/img/armado-cuentas/downloadExcel.gif" alt="Descripción del GIF" width="400" />
+  <figcaption style={{ fontStyle: 'italic', color: 'gray' }}>Figura 1: Vista actual del proceso de descarga de Insidencias</figcaption>
+</figure>
+
+
+La acción **Descargar Incidencias en Excel** permite a los usuarios obtener un informe detallado de las incidencias asociadas a los radicados seleccionados. Este botón resulta especialmente útil para radicados que contienen una cantidad considerable de facturas, ya que facilita la visualización y gestión de la información.
+
+Al descargar el archivo en formato Excel, los usuarios pueden observar las incidencias de manera más amplia y organizada. La interfaz de Excel permite agrupar y filtrar los datos de forma más efectiva, lo que simplifica la revisión y el análisis de las facturas similares.
+
+> **Nota**: A continuación se presenta una imagen demostrativa que ilustra la estructura del archivo Excel descargado, así como una breve descripción de cada uno de los campos que se incluyen en el informe.
+<figure style={{ textAlign: 'center' }}>
+  <img src="/img/armado-cuentas/excelDescargaAC.png" alt="Excel base" width="550" />
+  <figcaption style={{ fontStyle: 'italic', color: 'gray' }}>Figura 2. Vista actual de los campos en excel</figcaption>
+</figure>
+
+
+1. **Campo 1: Referencia**: Indica el radicado al que esta asociada la factura.
+
+2. **Campo 2: Factura**: Muestra el número de factura que esta teniendo la insidencia.
+
+3. **Campo 3: Episodio**: Muestra el numero de ingreso o episodio asociado a la factura.
+
+4. **Campo 4: Observacion**: Detalla cual la insidencia que tuvo la factura en el momento del armado.
+
+5. **Campo 5: Fecha**: Esta fecha es la ultima actualizacion de estado que tuvo la factura.
+
+6. **Campo 6: Intentos**: Muestra en que intento o reproceso encontro la inconsistencia el robot.
+
+Este formato permite a los usuarios tener una visión clara y concisa de las incidencias, ayudando a la toma de decisiones y a la gestión de las facturas de manera más efectiva.
+
+---
+_Lanzado desde la version 1.0 y sin modificacion a la fecha._

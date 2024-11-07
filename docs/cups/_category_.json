@@ -1,0 +1,8 @@
+{
+  "label": "CUPS",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Propiedades y funcionalidades del modulo de CUPS"
+  }
+}
